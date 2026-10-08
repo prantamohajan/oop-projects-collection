@@ -1,3 +1,6 @@
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 public class ECGMachine extends MedicalEquipment {
     private int leadCount;
 
@@ -14,6 +17,7 @@ public class ECGMachine extends MedicalEquipment {
 
     @Override
     public void stopOperation() {
+        this.status = EquipmentStatus.OUT_OF_SERVICE;
         System.out.println("[ECG " + equipmentId + "] Telemetry processing offline.");
     }
 
@@ -22,4 +26,11 @@ public class ECGMachine extends MedicalEquipment {
     }
 
     public int getLeadCount() { return leadCount; }
+
+    @Override
+    public Map<String, String> getSpecificDetails() {
+        Map<String, String> d = new LinkedHashMap<>();
+        d.put("Lead Count", leadCount + "-lead");
+        return d;
+    }
 }

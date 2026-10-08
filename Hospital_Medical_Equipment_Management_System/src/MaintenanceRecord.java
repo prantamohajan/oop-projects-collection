@@ -1,34 +1,45 @@
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * A single completed or scheduled maintenance event tied to one equipment item.
+ */
 public class MaintenanceRecord {
-    private String recordId;
-    private Date date;
-    private String technician;
-    private String description;
+    private final String recordId;
+    private final String equipmentId;
+    private final Date date;
+    private final String technician;
+    private final String description;
+    private boolean completed;
 
+    /** Original constructor (kept for compatibility) - treated as a completed record. */
     public MaintenanceRecord(String recordId, Date date, String technician, String description) {
+        this(recordId, "-", date, technician, description, true);
+    }
+
+    public MaintenanceRecord(String recordId, String equipmentId, Date date,
+                             String technician, String description, boolean completed) {
         this.recordId = recordId;
+        this.equipmentId = equipmentId;
         this.date = date;
         this.technician = technician;
         this.description = description;
+        this.completed = completed;
     }
 
-    public String getRecordId() {
-        return recordId;
-    }
+    public String getRecordId() { return recordId; }
 
-    public Date getDate() {
-        return date;
-    }
+    public String getEquipmentId() { return equipmentId; }
 
-    public String getTechnician() {
-        return technician;
-    }
+    public Date getDate() { return date; }
 
-    public String getDescription() {
-        return description;
-    }
+    public String getTechnician() { return technician; }
+
+    public String getDescription() { return description; }
+
+    public boolean isCompleted() { return completed; }
+
+    public void markCompleted() { this.completed = true; }
 
     public String getSummary() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");

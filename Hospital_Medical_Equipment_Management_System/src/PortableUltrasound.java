@@ -1,3 +1,6 @@
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 public class PortableUltrasound extends MedicalEquipment {
     private String probeType;
 
@@ -14,6 +17,7 @@ public class PortableUltrasound extends MedicalEquipment {
 
     @Override
     public void stopOperation() {
+        this.status = EquipmentStatus.OUT_OF_SERVICE;
         System.out.println("[Ultrasound " + equipmentId + "] Ultrasound imaging terminated.");
     }
 
@@ -22,4 +26,11 @@ public class PortableUltrasound extends MedicalEquipment {
     }
 
     public String getProbeType() { return probeType; }
+
+    @Override
+    public Map<String, String> getSpecificDetails() {
+        Map<String, String> d = new LinkedHashMap<>();
+        d.put("Probe Type", probeType);
+        return d;
+    }
 }

@@ -1,6 +1,9 @@
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * Console demo (no GUI). Run HospitalGUI to see the graphical version.
+ */
 public class Main {
     public static void main(String[] args) {
         System.out.println("===============================================================");
@@ -42,12 +45,22 @@ public class Main {
 
         scheduler.scheduleTask(ventilator, "Engr. Kamal", "Annual sensor calibration", scheduledDate);
         ventilator.setStatus(EquipmentStatus.UNDER_MAINTENANCE);
-
         ventilator.performMaintenance();
+        scheduler.completeTasksFor(ventilator);
 
         System.out.println("\n--- Service History for Ventilator ---");
         for (MaintenanceRecord rec : ventilator.getMaintenanceHistory()) {
             System.out.println(rec.getSummary());
+        }
+
+        System.out.println("\n--- Search & Filter (FR6) ---");
+        System.out.println("Search 'monitor' : " + hospital.search("monitor").size() + " result(s)");
+        System.out.println("Operational      : " + hospital.getOperationalEquipment().size() + " device(s)");
+
+        System.out.println("\n--- Overdue Maintenance (FR5) ---");
+        ecg.scheduleMaintenance(new Date(System.currentTimeMillis() - 86400000L * 3));
+        for (MedicalEquipment eq : hospital.getOverdueEquipment()) {
+            System.out.println("OVERDUE -> " + eq.getEquipmentId() + " (" + eq.getName() + ")");
         }
 
         hospital.displayAllEquipment();
